@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup as bs
 import requests as rq
+import os.path
+from os import path
 
 if __name__ == '__main__':
     import argparse
@@ -41,6 +43,10 @@ if __name__ == '__main__':
             #Getting the image id from the webpage
             imgid_div = soup.find_all("div", attrs={'class':'top_header'})[0]
             img_id = imgid_div.contents[0]
+            imgtitle = img_id + '.jpeg'
+            if(path.exists(imgtitle)):
+                continue
+
             #Getting the nadir points from the webpage (NOT NEEDED FOR IMAGE CLASSIFICATION)
             # nadir_div = soup.find_all("div", attrs={'class':'span5'})[0]
             # nadir_points = nadir_div.contents[2]
@@ -63,7 +69,6 @@ if __name__ == '__main__':
                 # nadir_final = nadir_old.replace(" ", "")
 
                 # imgtitle = img_id + '_' + nadir_final + '.jpeg'
-                imgtitle = img_id + '.jpeg'
                 with open(imgtitle, 'wb') as f:
                     f.write(imgresp.content)
             else:
